@@ -22,5 +22,9 @@
     <fragment
         android:id="@+id/addLivro"
         android:name="com.lulu.mybooks.AddLivro"
-        android:label="AddLivro" />
+        android:label="AddLivro" >
+        <action
+            android:id="@+id/action_addLivro_to_telaInicial"
+            app:destination="@id/telaInicial" />
+    </fragment>
 </navigation>

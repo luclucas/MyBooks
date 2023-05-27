@@ -54,6 +54,7 @@
             android:textSize="20sp" />
 
         <CheckBox
+            android:id="@+id/checkbox"
             android:layout_width="50dp"
             android:layout_height="50dp"
          />

@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lulu.mybooks.databinding.FragmentTelaInicialBinding
 import com.lulu.mybooks.db.Livro
@@ -37,17 +38,24 @@ class TelaInicial : Fragment() {
         binding.floatingActionButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_telaInicial_to_addLivro)
         }
+
+        binding.buttonAtualizar.setOnClickListener {
+            atualizarTela()
+        }
+
+
         binding.lifecycleOwner = this
 
-    //   initRecyclerView()
+      initRecyclerView()
+      //  livrosViewModel.deleteAll()
 
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        initRecyclerView()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        initRecyclerView()
+//    }
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         displayLivros()
@@ -57,15 +65,25 @@ class TelaInicial : Fragment() {
     private fun displayLivros() {
 
         livrosViewModel.livros.observe(viewLifecycleOwner) {
-
+            val adapter =   RecyclerViewAdapter(it) { selectedItem: Livro -> listItemClicked(selectedItem) }
             Log.i("Lulu", it.toString())
-            binding.recyclerView.adapter =
-                RecyclerViewAdapter(it) { selectedItem: Livro -> listItemClicked(selectedItem) }
-
+            binding.recyclerView.adapter = adapter
+            adapter.notifyDataSetChanged()
         }
     }
 
     private fun listItemClicked(livro: Livro) {
         //  livrosViewModel.init
     }
-}
+
+    private fun atualizarTela(){
+//            val navController =  findNavController(R.id.)
+//            val id = navController.currentDestination?.id
+//            navController.popBackStack(id!!,true)
+//            navController.navigate(id)
+
+        val fragmentId = findNavController().currentDestination?.id
+        findNavController().popBackStack(fragmentId!!,true)
+        findNavController().navigate(fragmentId)
+        }
+    }
